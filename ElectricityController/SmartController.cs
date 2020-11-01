@@ -3,10 +3,12 @@ namespace ElectricityController
 {
     public class SmartController
     {
-        public int NoOfFloors { get; set; }
-        public int NoOfMainCorridors { get; set; }
-        public int NoOfSubCorridors { get; set; }
-        public Floor[] floors;
+        private int NoOfFloors { get; set; }
+        private int NoOfMainCorridors { get; set; }
+        private int NoOfSubCorridors { get; set; }
+        private Floor[] floors;
+
+        private IInputProcess inputProcesser;
         public SmartController(int noOfFloors, int noOfMainCorridors, int noOfSubCorridors)
         {
             this.NoOfFloors = noOfFloors;
@@ -28,14 +30,18 @@ namespace ElectricityController
             floors = new Floor[this.NoOfFloors];
             for (int i = 0; i < this.NoOfFloors; i++)
             {
-                floors[i] = new Floor(noOfMainCorridors, noOfSubCorridors);
+                floors[i] = new Floor(i+1, noOfMainCorridors, noOfSubCorridors);
             }
+
+            inputProcesser = new NaturalLanguageInputProcess();
         }
 
-        public void processSensorInput(SensorInput input)
+        public void processSensorInput(string input)
         {
-            floors[input.floorId].manageEquipments(input.corridorId, input.IsMovement);
-
+            var sensorInput = inputProcesser.parseInput(input);
+            floors[sensorInput.floorNumber].manageEquipments(sensorInput.corridorNumber, sensorInput.hasMovement);
         }
+
+        
     }
 }

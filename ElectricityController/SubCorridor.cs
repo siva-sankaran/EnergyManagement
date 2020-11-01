@@ -1,8 +1,14 @@
 namespace ElectricityController
 {
-    public class SubCorridor
+    public class SubCorridor : Corridor
     {
-        public Light light { get; set; }
-        public AirConditioner airConditioner { get; set; }        
+        public SubCorridor(int corridorNumber) : base(corridorNumber)
+        {
+            this.light.switchOff();
+        }
+        public override string ToString()
+        {
+            return $"Sub corridor { this.corridorNumber } Light {this.corridorNumber} : {this.light.State} AC : {this.airConditioner.State}";
+        }                
     }
 }

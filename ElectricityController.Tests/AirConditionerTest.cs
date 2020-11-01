@@ -16,14 +16,14 @@ namespace ElectricityController.Tests
         [Test]
         public void ShouldConsumePower()
         {
-            ac.IsSwitchedOn = true;
+            ac.switchOn();
             Assert.AreEqual(ac.PowerConsumptionUnits, 10);
         }
 
         [Test]
         public void ShouldNotConsumePower()
         {
-            ac.IsSwitchedOn = false;
+            ac.switchOff();
             Assert.AreEqual(ac.PowerConsumptionUnits, 0);
         }
     }
