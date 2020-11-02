@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 using System;
-namespace ElectricityController
+namespace EnergyManagement
 {
     public class NaturalLanguageInputProcess : IInputProcess
     {

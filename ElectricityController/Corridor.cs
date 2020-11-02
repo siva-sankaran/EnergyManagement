@@ -1,6 +1,6 @@
 using System;
 
-namespace ElectricityController
+namespace EnergyManagement
 {
     public abstract class Corridor
     {

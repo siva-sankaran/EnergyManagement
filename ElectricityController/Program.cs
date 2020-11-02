@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ElectricityController
+namespace EnergyManagement
 {
     class Program
     {
@@ -25,7 +25,7 @@ namespace ElectricityController
                 noOfMainCorridorsPerFloor = Int32.Parse(args[1]);
                 noOfSubCorridorsPerFloor = Int32.Parse(args[2]);
             }
-            SmartController controller = new SmartController(noOfFloors, noOfMainCorridorsPerFloor, noOfSubCorridorsPerFloor);
+            Building controller = new Building(noOfFloors, noOfMainCorridorsPerFloor, noOfSubCorridorsPerFloor);
             while (true)
             {
                 Console.Write("Inputs from Sensor: ");

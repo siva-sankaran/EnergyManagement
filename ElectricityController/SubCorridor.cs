@@ -1,4 +1,4 @@
-namespace ElectricityController
+namespace EnergyManagement
 {
     public class SubCorridor : Corridor
     {

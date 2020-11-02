@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ElectricityController
+namespace EnergyManagement
 {
     public class Floor
     {
@@ -11,7 +11,7 @@ namespace ElectricityController
 
         private SubCorridor[] subCorridors { get; set; }
 
-        public IEnumerable<Corridor> GetAllCorridors()
+        private IEnumerable<Corridor> GetAllCorridors()
         {
             return ((Corridor[])mainCorridors).Concat((Corridor[])subCorridors);
         }
@@ -30,7 +30,7 @@ namespace ElectricityController
             }
 
             subCorridors = new SubCorridor[noOfSubCorridors];
-            for (int i = 0; i < noOfMainCorridors; i++)
+            for (int i = 0; i < noOfSubCorridors; i++)
             {
                 subCorridors[i] = new SubCorridor(i + 1);
             }
@@ -39,6 +39,11 @@ namespace ElectricityController
 
         public void manageEquipments(int corridorNumber, bool isMovement)
         {
+            Console.WriteLine($"manageEquipments invoked corridorNumber:{corridorNumber}  isMovement:{isMovement}");
+            if(corridorNumber < 1 || corridorNumber > subCorridors.Length)
+            {
+                throw new ArgumentOutOfRangeException("corridorNumber", corridorNumber, "There is no corridor with such corridor number");
+            }
             if (isMovement)
             {
                 switchOnLight(subCorridors[corridorNumber-1]);
@@ -57,24 +62,39 @@ namespace ElectricityController
             }
         }
 
-        private void switchOnLight(SubCorridor c)
+        private void switchOnLight(SubCorridor corridor)
+        {
+            switchOffACIfNecessary(corridor);
+            corridor.light.switchOn();
+        }
+
+        private void switchOffACIfNecessary(SubCorridor corridor)
         {
             if (PowerConsumption + 5 > MaxPowerConsumption)
             {
-                var otherCorridors = this.subCorridors.First(sc => sc.corridorNumber != c.corridorNumber && sc.airConditioner.IsSwitchedOn);
+                var otherCorridors = this.subCorridors
+                                    .OrderBy(sc => sc.corridorNumber)
+                                    .FirstOrDefault(sc => sc.corridorNumber != corridor.corridorNumber && sc.airConditioner.IsSwitchedOn) ?? corridor;
+                                    
                 otherCorridors.airConditioner.switchOff();
             }
-            c.light.switchOn();
         }
 
-        private void switchOffLight(SubCorridor c)
+        private void switchOffLight(SubCorridor corridor)
+        {
+            switchOnACIfNecessary(corridor);
+            corridor.light.switchOff();
+        }
+
+        private void switchOnACIfNecessary(SubCorridor corridor)
         {
             if (PowerConsumption + 5 <= MaxPowerConsumption)
             {
-                var otherCorridors = this.subCorridors.First(sc => sc.corridorNumber != c.corridorNumber && !sc.airConditioner.IsSwitchedOn);
+                var otherCorridors = this.subCorridors
+                                    .OrderBy(sc => sc.corridorNumber)
+                                    .FirstOrDefault(sc => sc.corridorNumber != corridor.corridorNumber && !sc.airConditioner.IsSwitchedOn) ?? corridor;
                 otherCorridors.airConditioner.switchOn();
             }
-            c.light.switchOff();
         }
 
         public override string ToString()

@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using System;
 
-namespace ElectricityController.Tests
+namespace EnergyManagement.Tests
 {
     [TestFixture]
     public class AirConditionerTests
