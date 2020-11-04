@@ -29,7 +29,8 @@ namespace EnergyManagement
             while (true)
             {
                 Console.Write("Inputs from Sensor: ");
-                controller.processSensorInput(Console.ReadLine());    
+                controller.processSensorInput(Console.ReadLine());
+                Console.WriteLine(controller);
             }
             
             Console.WriteLine("Bye!");

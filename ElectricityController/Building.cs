@@ -1,4 +1,6 @@
 using System;
+using System.Text;
+
 namespace EnergyManagement
 {
     public class Building
@@ -34,7 +36,18 @@ namespace EnergyManagement
         public void processSensorInput(string input)
         {
             var sensorInput = inputProcesser.parseInput(input);
-            floors[sensorInput.floorNumber].manageEquipments(sensorInput.corridorNumber, sensorInput.hasMovement);
+            floors[sensorInput.floorNumber-1].manageEquipments(sensorInput.corridorNumber, sensorInput.hasMovement);
+        }
+
+        public override string ToString()
+        {
+            StringBuilder str = new StringBuilder();
+            foreach (var floor in floors)
+            {
+                str.AppendLine(floor.ToString());
+            }
+            str.Length -= 2;
+            return str.ToString();
         }
 
         

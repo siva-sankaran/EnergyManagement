@@ -39,7 +39,6 @@ namespace EnergyManagement
 
         public void manageEquipments(int corridorNumber, bool isMovement)
         {
-            Console.WriteLine($"manageEquipments invoked corridorNumber:{corridorNumber}  isMovement:{isMovement}");
             if(corridorNumber < 1 || corridorNumber > subCorridors.Length)
             {
                 throw new ArgumentOutOfRangeException("corridorNumber", corridorNumber, "There is no corridor with such corridor number");
@@ -100,6 +99,8 @@ namespace EnergyManagement
         public override string ToString()
         {
             StringBuilder str = new StringBuilder($"               Floor { this.FloorNumber }");
+            str.AppendLine();
+            str.AppendLine();
             foreach (var item in this.GetAllCorridors())
             {
                 str.AppendLine(item.ToString());
