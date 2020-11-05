@@ -4,7 +4,7 @@ namespace EnergyManagement
 {
     public abstract class Corridor
     {
-        public Light light { get; set; }
+        private Light light { get; set; }
         public AirConditioner airConditioner { get; set; }
 
         public int corridorNumber { get; set; }
@@ -27,6 +27,21 @@ namespace EnergyManagement
             this.light = new Light();
             this.airConditioner = new AirConditioner();
             this.airConditioner.switchOn();
+        }
+
+        public void swithchOffLight()
+        {
+            this.light.switchOff();
+        }
+
+        public void swithchOnLight()
+        {
+            this.light.switchOn();
+        }
+
+        public string getLightState()
+        {
+            return this.light.State;
         }
     }
     

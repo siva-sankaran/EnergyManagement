@@ -1,0 +1,5 @@
+Movement in Floor 1, Sub corridor 2
+Movement in Floor 1, Sub corridor 1
+No Movement in Floor 1, Sub corridor 2
+No Movement in Floor 1, Sub corridor 1
+quit

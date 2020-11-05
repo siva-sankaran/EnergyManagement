@@ -4,9 +4,9 @@ namespace EnergyManagement
 {
     class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Press Ctrl + C to stop");
+            Console.WriteLine("Enter \"quit\" to stop");
             int noOfFloors, noOfMainCorridorsPerFloor, noOfSubCorridorsPerFloor;
             if (args.Length < 3)
             {
@@ -25,14 +25,35 @@ namespace EnergyManagement
                 noOfMainCorridorsPerFloor = Int32.Parse(args[1]);
                 noOfSubCorridorsPerFloor = Int32.Parse(args[2]);
             }
-            Building controller = new Building(noOfFloors, noOfMainCorridorsPerFloor, noOfSubCorridorsPerFloor);
-            while (true)
+            Building building = new Building(noOfFloors, noOfMainCorridorsPerFloor, noOfSubCorridorsPerFloor);
+            Console.WriteLine(building);
+
+            string input = Console.ReadLine();
+            while (!input.Equals("quit", StringComparison.OrdinalIgnoreCase))
             {
-                Console.Write("Inputs from Sensor: ");
-                controller.processSensorInput(Console.ReadLine());
-                Console.WriteLine(controller);
+                Console.WriteLine("SensorInput:> " + input);
+                building.processSensorInput(input);
+                Console.WriteLine(building);
+                input = Console.ReadLine();
             }
-            
+
+            Console.WriteLine("Bye!");
+
+            //getInputInteractively(building);
+        }
+        public static void getInputInteractively(Building building)
+        {
+            string input;
+            Console.Write("Inputs from Sensor: ");
+            input = Console.ReadLine();
+            while (!input.Equals("quit", StringComparison.OrdinalIgnoreCase))
+            {
+                building.processSensorInput(input);
+                Console.WriteLine(building);
+                Console.Write("Inputs from Sensor: ");
+                input = Console.ReadLine();
+            }
+
             Console.WriteLine("Bye!");
         }
     }

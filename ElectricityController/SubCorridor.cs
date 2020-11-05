@@ -4,11 +4,11 @@ namespace EnergyManagement
     {
         public SubCorridor(int corridorNumber) : base(corridorNumber)
         {
-            this.light.switchOff();
+            this.swithchOffLight();
         }
         public override string ToString()
         {
-            return $"Sub corridor { this.corridorNumber } Light {this.corridorNumber} : {this.light.State} AC : {this.airConditioner.State}";
+            return $"Sub corridor { this.corridorNumber } Light {this.corridorNumber} : {this.getLightState()} AC : {this.airConditioner.State}";
         }                
     }
 }

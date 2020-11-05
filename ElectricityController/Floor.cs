@@ -64,7 +64,7 @@ namespace EnergyManagement
         private void switchOnLight(SubCorridor corridor)
         {
             switchOffACIfNecessary(corridor);
-            corridor.light.switchOn();
+            corridor.swithchOnLight();
         }
 
         private void switchOffACIfNecessary(SubCorridor corridor)
@@ -82,7 +82,7 @@ namespace EnergyManagement
         private void switchOffLight(SubCorridor corridor)
         {
             switchOnACIfNecessary(corridor);
-            corridor.light.switchOff();
+            corridor.swithchOffLight();
         }
 
         private void switchOnACIfNecessary(SubCorridor corridor)

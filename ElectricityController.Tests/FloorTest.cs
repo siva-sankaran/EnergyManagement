@@ -8,7 +8,7 @@ namespace EnergyManagement.Tests
     {
         Floor floor;
 
-        [TestCase(1, 1, 25)]
+        [TestCase(1, 1, 25), Category("Default")]
         [TestCase(1, 2, 35)]
         [TestCase(1, 3, 45)]
         [TestCase(1, 4, 55)]
@@ -24,7 +24,7 @@ namespace EnergyManagement.Tests
             Assert.AreEqual(expectedPowerConsumptionUnits, floor.PowerConsumption);
         }
 
-        [TestCase(1, 1, 20)]
+        [TestCase(1, 1, 20), Category("SingleMovement")]
         [TestCase(1, 2, 30)]
         [TestCase(1, 3, 40)]
         [TestCase(1, 4, 50)]

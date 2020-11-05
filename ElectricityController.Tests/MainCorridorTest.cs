@@ -3,7 +3,7 @@ using System;
 
 namespace EnergyManagement.Tests
 {
-    [TestFixture]
+    [TestFixture, Category("CategoryA")]
     public class MainCorridorTest
     {
         MainCorridor corridor;
@@ -17,7 +17,7 @@ namespace EnergyManagement.Tests
         public void DefaultStateTest()
         {
             corridor = new MainCorridor(1);
-            Assert.IsTrue(corridor.light.IsSwitchedOn, "Light is expected to be On");
+            Assert.AreEqual("ON", corridor.getLightState(), "Light is expected to be On");
             Assert.IsTrue(corridor.airConditioner.IsSwitchedOn, "AirConditioner is expected to be On");
         }
 
@@ -32,7 +32,7 @@ namespace EnergyManagement.Tests
         public void AfterSwitchOffLight_PowerConsumptionTest()
         {
             corridor = new MainCorridor(1);
-            corridor.light.switchOff();
+            corridor.swithchOffLight();
             Assert.AreEqual(10, corridor.PowerConsumption);
         }        
 
@@ -48,7 +48,7 @@ namespace EnergyManagement.Tests
         public void WithLightsOff_And_ACOff_PowerConsumptionTest()
         {
             corridor = new MainCorridor(1);
-            corridor.light.switchOff();
+            corridor.swithchOffLight();
             corridor.airConditioner.switchOff();
             Assert.AreEqual(0, corridor.PowerConsumption);
         }
@@ -63,7 +63,7 @@ namespace EnergyManagement.Tests
         public void AfterSwitchOffLight_ToStringTest()
         {
             corridor = new MainCorridor(1);
-            corridor.light.switchOff();
+            corridor.swithchOffLight();
             Assert.AreEqual("Main corridor 1 Light 1 : OFF AC : ON", corridor.ToString());
         }        
 
@@ -79,7 +79,7 @@ namespace EnergyManagement.Tests
         public void WithLightsOffAndACOff_ToStringTest()
         {
             corridor = new MainCorridor(1);
-            corridor.light.switchOff();
+            corridor.swithchOffLight();
             corridor.airConditioner.switchOff();
             Assert.AreEqual("Main corridor 1 Light 1 : OFF AC : OFF", corridor.ToString());  
         }      

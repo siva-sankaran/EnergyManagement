@@ -6,7 +6,7 @@ namespace EnergyManagement
     {
         public (int floorNumber, int corridorNumber, bool hasMovement) parseInput(string input)
         {
-            var pattern = new System.Text.RegularExpressions.Regex(@"(No Movement|Movement) in Floor (\d+), Sub corridor (\d+)");
+            var pattern = new System.Text.RegularExpressions.Regex(@"(No Movement|Movement) in Floor (\d+), Sub corridor (\d+)", RegexOptions.IgnoreCase);
             MatchCollection matches = pattern.Matches(input);
             if(matches.Count < 1)
                 throw new ArgumentException("input string is not valid");
