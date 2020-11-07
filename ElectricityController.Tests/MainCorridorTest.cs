@@ -3,7 +3,7 @@ using System;
 
 namespace EnergyManagement.Tests
 {
-    [TestFixture, Category("CategoryA")]
+    [TestFixture, Category("MainCorridor")]
     public class MainCorridorTest
     {
         MainCorridor corridor;

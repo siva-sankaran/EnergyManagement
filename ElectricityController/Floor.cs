@@ -39,17 +39,17 @@ namespace EnergyManagement
 
         public void manageEquipments(int corridorNumber, bool isMovement)
         {
-            if(corridorNumber < 1 || corridorNumber > subCorridors.Length)
+            if (corridorNumber < 1 || corridorNumber > subCorridors.Length)
             {
                 throw new ArgumentOutOfRangeException("corridorNumber", corridorNumber, "There is no corridor with such corridor number");
             }
             if (isMovement)
             {
-                switchOnLight(subCorridors[corridorNumber-1]);
+                switchOnLight(subCorridors[corridorNumber - 1]);
             }
             else
             {
-                switchOffLight(subCorridors[corridorNumber-1]);
+                switchOffLight(subCorridors[corridorNumber - 1]);
             }
         }
 
@@ -74,7 +74,7 @@ namespace EnergyManagement
                 var otherCorridors = this.subCorridors
                                     .OrderBy(sc => sc.corridorNumber)
                                     .FirstOrDefault(sc => sc.corridorNumber != corridor.corridorNumber && sc.airConditioner.IsSwitchedOn) ?? corridor;
-                                    
+
                 otherCorridors.airConditioner.switchOff();
             }
         }
@@ -106,6 +106,41 @@ namespace EnergyManagement
                 str.AppendLine(item.ToString());
             }
             return str.ToString();
+        }
+
+        public void manageEquipments_LongMethod(int corridorNumber, bool isMovement)
+        {
+            if (corridorNumber < 1 || corridorNumber > subCorridors.Length)
+            {
+                throw new ArgumentOutOfRangeException("corridorNumber", corridorNumber, "There is no corridor with such corridor number");
+            }
+            if (isMovement)
+            {
+                if (PowerConsumption + 5 > MaxPowerConsumption)
+                {
+                    var otherCorridors = this.subCorridors
+                                        .OrderBy(sc => sc.corridorNumber)
+                                        .FirstOrDefault(sc => sc.corridorNumber != corridorNumber && sc.airConditioner.IsSwitchedOn)
+                                        ?? subCorridors[corridorNumber];
+
+                    otherCorridors.airConditioner.switchOff();
+                }
+                subCorridors[corridorNumber].swithchOnLight();
+            }
+            else
+            {
+                if (PowerConsumption + 5 <= MaxPowerConsumption)
+                {
+                    var otherCorridors = this.subCorridors
+                                        .OrderBy(sc => sc.corridorNumber)
+                                        .FirstOrDefault(sc => sc.corridorNumber != corridorNumber && !sc.airConditioner.IsSwitchedOn) 
+                                        ?? subCorridors[corridorNumber];
+
+                    otherCorridors.airConditioner.switchOn();
+                }
+                subCorridors[corridorNumber].swithchOffLight();
+            }
+
         }
     }
 }

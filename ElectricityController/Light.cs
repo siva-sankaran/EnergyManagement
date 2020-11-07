@@ -1,27 +1,14 @@
 namespace EnergyManagement
 {
-    public class Light
+    public class Light : ElectricEquipment
     {
-        public bool IsSwitchedOn { get; private set; }
-
-        public string State
+        protected override int Units
         {
             get
             {
-                return IsSwitchedOn ? "ON" : "OFF";
+                return 5;
             }
         }
-
-        public void switchOn() => IsSwitchedOn = true;
-
-        public void switchOff() => IsSwitchedOn = false;
-
-        public int PowerConsumptionUnits 
-        { 
-            get 
-            {
-                return IsSwitchedOn ? 5 : 0;
-            }
-        }
+        
     }
 }

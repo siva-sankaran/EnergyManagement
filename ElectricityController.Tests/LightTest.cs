@@ -3,7 +3,7 @@ using System;
 
 namespace EnergyManagement.Tests
 {
-    [TestFixture]
+    [TestFixture, Category("Light")]
     public class LightTests
     {
         Light light;

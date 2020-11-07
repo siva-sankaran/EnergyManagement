@@ -3,7 +3,7 @@ using System;
 
 namespace EnergyManagement.Tests
 {
-    [TestFixture]
+    [TestFixture, Category("AirCondition")]
     public class AirConditionerTests
     {
         AirConditioner ac;
@@ -25,6 +25,20 @@ namespace EnergyManagement.Tests
         {
             ac.switchOff();
             Assert.AreEqual(ac.PowerConsumptionUnits, 0);
+        }
+
+        [Test]
+        public void ShouldAirConditionStateBeOn()
+        {
+            ac.switchOn();
+            Assert.AreEqual(ac.State, "ON");
+        }
+
+        [Test]
+        public void ShouldAirConditionStateBeOff()
+        {
+            ac.switchOff();
+            Assert.AreEqual(ac.State, "OFF");
         }
     }
 }
