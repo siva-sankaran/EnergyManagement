@@ -8,18 +8,12 @@ namespace EnergyManagement
     public class Floor
     {
         private MainCorridor[] mainCorridors { get; set; }
-
-        private SubCorridor[] subCorridors { get; set; }
-
+        public SubCorridors subCorridors { get; set; }
         private IEnumerable<Corridor> GetAllCorridors()
         {
-            return ((Corridor[])mainCorridors).Concat((Corridor[])subCorridors);
+            return ((Corridor[])mainCorridors).Concat(subCorridors);
         }
-
         public int FloorNumber { get; private set; }
-
-        private readonly int MaxPowerConsumption;
-
         public Floor(int floorNumber, int noOfMainCorridors, int noOfSubCorridors)
         {
             this.FloorNumber = floorNumber;
@@ -29,118 +23,23 @@ namespace EnergyManagement
                 mainCorridors[i] = new MainCorridor(i + 1);
             }
 
-            subCorridors = new SubCorridor[noOfSubCorridors];
+            SubCorridor[] scs = new SubCorridor[noOfSubCorridors];
             for (int i = 0; i < noOfSubCorridors; i++)
             {
-                subCorridors[i] = new SubCorridor(i + 1);
+                scs[i] = new SubCorridor(i + 1);
             }
-            MaxPowerConsumption = (noOfMainCorridors * 15) + (noOfSubCorridors * 10);
-        }
-
-        public void manageEquipments(int corridorNumber, bool isMovement)
-        {
-            if (corridorNumber < 1 || corridorNumber > subCorridors.Length)
-            {
-                throw new ArgumentOutOfRangeException("corridorNumber", corridorNumber, "There is no corridor with such corridor number");
-            }
-            if (isMovement)
-            {
-                switchOnLight(subCorridors[corridorNumber - 1]);
-            }
-            else
-            {
-                switchOffLight(subCorridors[corridorNumber - 1]);
-            }
-        }
-
-        public int PowerConsumption
-        {
-            get
-            {
-                return GetAllCorridors().Sum(c => c.PowerConsumption);
-            }
-        }
-
-        private void switchOnLight(SubCorridor corridor)
-        {
-            switchOffACIfNecessary(corridor);
-            corridor.swithchOnLight();
-        }
-
-        private void switchOffACIfNecessary(SubCorridor corridor)
-        {
-            if (PowerConsumption + 5 > MaxPowerConsumption)
-            {
-                var otherCorridors = this.subCorridors
-                                    .OrderBy(sc => sc.corridorNumber)
-                                    .FirstOrDefault(sc => sc.corridorNumber != corridor.corridorNumber && sc.airConditioner.IsSwitchedOn) ?? corridor;
-
-                otherCorridors.airConditioner.switchOff();
-            }
-        }
-
-        private void switchOffLight(SubCorridor corridor)
-        {
-            switchOnACIfNecessary(corridor);
-            corridor.swithchOffLight();
-        }
-
-        private void switchOnACIfNecessary(SubCorridor corridor)
-        {
-            if (PowerConsumption + 5 <= MaxPowerConsumption)
-            {
-                var otherCorridors = this.subCorridors
-                                    .OrderBy(sc => sc.corridorNumber)
-                                    .FirstOrDefault(sc => sc.corridorNumber != corridor.corridorNumber && !sc.airConditioner.IsSwitchedOn) ?? corridor;
-                otherCorridors.airConditioner.switchOn();
-            }
+            this.subCorridors = new SubCorridors(scs);
         }
 
         public override string ToString()
         {
-            StringBuilder str = new StringBuilder($"               Floor { this.FloorNumber }");
-            str.AppendLine();
-            str.AppendLine();
-            foreach (var item in this.GetAllCorridors())
-            {
-                str.AppendLine(item.ToString());
-            }
-            return str.ToString();
+            return this.GetAllCorridors()
+                        .Aggregate(new StringBuilder($"               Floor { this.FloorNumber }")
+                                    .AppendLine()
+                                    .AppendLine(), 
+                            (sb, corridor)=> sb.AppendLine(corridor.ToString()))
+                        .ToString();
         }
 
-        public void manageEquipments_LongMethod(int corridorNumber, bool isMovement)
-        {
-            if (corridorNumber < 1 || corridorNumber > subCorridors.Length)
-            {
-                throw new ArgumentOutOfRangeException("corridorNumber", corridorNumber, "There is no corridor with such corridor number");
-            }
-            if (isMovement)
-            {
-                if (PowerConsumption + 5 > MaxPowerConsumption)
-                {
-                    var otherCorridors = this.subCorridors
-                                        .OrderBy(sc => sc.corridorNumber)
-                                        .FirstOrDefault(sc => sc.corridorNumber != corridorNumber && sc.airConditioner.IsSwitchedOn)
-                                        ?? subCorridors[corridorNumber];
-
-                    otherCorridors.airConditioner.switchOff();
-                }
-                subCorridors[corridorNumber].swithchOnLight();
-            }
-            else
-            {
-                if (PowerConsumption + 5 <= MaxPowerConsumption)
-                {
-                    var otherCorridors = this.subCorridors
-                                        .OrderBy(sc => sc.corridorNumber)
-                                        .FirstOrDefault(sc => sc.corridorNumber != corridorNumber && !sc.airConditioner.IsSwitchedOn) 
-                                        ?? subCorridors[corridorNumber];
-
-                    otherCorridors.airConditioner.switchOn();
-                }
-                subCorridors[corridorNumber].swithchOffLight();
-            }
-
-        }
     }
 }

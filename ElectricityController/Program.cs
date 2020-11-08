@@ -25,7 +25,8 @@ namespace EnergyManagement
                 noOfMainCorridorsPerFloor = Int32.Parse(args[1]);
                 noOfSubCorridorsPerFloor = Int32.Parse(args[2]);
             }
-            Building building = new Building(noOfFloors, noOfMainCorridorsPerFloor, noOfSubCorridorsPerFloor);
+            IController controller = new SimpleController();
+            Building building = new Building(noOfFloors, noOfMainCorridorsPerFloor, noOfSubCorridorsPerFloor, controller);
             Console.WriteLine(building);
 
             string input = Console.ReadLine();

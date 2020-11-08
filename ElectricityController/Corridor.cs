@@ -43,6 +43,16 @@ namespace EnergyManagement
         {
             return this.light.State;
         }
+
+        public void swithchOffAirConditioner()
+        {
+            this.airConditioner.switchOff();
+        }
+
+        public void swithchOnAirConditioner()
+        {
+            this.airConditioner.switchOn();
+        }
     }
     
 }

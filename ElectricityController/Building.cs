@@ -7,7 +7,10 @@ namespace EnergyManagement
     {
         private Floor[] floors;
         private IInputProcess inputProcesser;
-        public Building(int noOfFloors, int noOfMainCorridors, int noOfSubCorridors)
+
+        private IController controller;
+
+        public Building(int noOfFloors, int noOfMainCorridors, int noOfSubCorridors, IController controller)
         {
             if (noOfFloors < 1)
             {
@@ -24,6 +27,8 @@ namespace EnergyManagement
                 throw new ArgumentOutOfRangeException("noOfSubCorridors", "Number of Sub Corridors cannot be less than 1");
             }
 
+            this.controller = controller;
+
             floors = new Floor[noOfFloors];
             for (int i = 0; i < noOfFloors; i++)
             {
@@ -36,7 +41,7 @@ namespace EnergyManagement
         public void processSensorInput(string input)
         {
             var sensorInput = inputProcesser.parseInput(input);
-            floors[sensorInput.floorNumber-1].manageEquipments(sensorInput.corridorNumber, sensorInput.hasMovement);
+            controller.manageEquipments_LongMethod(floors[sensorInput.floorNumber-1].subCorridors, sensorInput.corridorNumber, sensorInput.hasMovement);
         }
 
         public override string ToString()

@@ -10,7 +10,8 @@ namespace EnergyManagement.Tests
         [SetUp]
         public void Setup()
         {
-               _2floors_1main_2sub = new Building(2, 1, 2);
+               IController con = new SimpleController();
+               _2floors_1main_2sub = new Building(2, 1, 2, con);
         }
         [TestCase(2, 1, 2, @"               Floor 1
 
@@ -26,7 +27,7 @@ Sub corridor 2 Light 2 : OFF AC : ON
 ")]
         public void DefaultState_ToString(int floorNos, int mCorNos, int sCorNos, string str)
         {
-            Building building = new Building(floorNos, mCorNos, sCorNos);
+            Building building = new Building(floorNos, mCorNos, sCorNos, new SimpleController());
             Assert.AreEqual(str, building.ToString());
 
         }
