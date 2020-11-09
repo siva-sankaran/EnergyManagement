@@ -5,18 +5,18 @@ namespace EnergyManagement
 {
     public class SimpleController : IController
     {
-        public void manageEquipments_LongMethod(ICorridorCollection corridors, int corridorNumber, bool isMovement)
+        public void manageEquipments_LongMethod(Floor floor, int corridorNumber, bool isMovement)
         {
-            SubCorridor operatingCorridor = corridors.getSubCorridorByCorridorNumber(corridorNumber);
-            if (corridorNumber < 1 || corridorNumber > corridors.getSubCorridorLength())
+            SubCorridor operatingCorridor = floor.subCorridors[corridorNumber-1];
+            if (corridorNumber < 1 || corridorNumber > floor.subCorridors.Length)
             {
                 throw new ArgumentOutOfRangeException("corridorNumber", corridorNumber, "There is no corridor with such corridor number");
             }
             if (isMovement)
             {
-                if (corridors.getCurrentPowerConsumptionUnits() + 5 > corridors.getMaximumPowerConsumptionLimit())
+                if (floor.CurrentPowerConsumptionUnits + 5 > floor.MaximumPowerConsumptionLimit)
                 {
-                    var otherCorridors = corridors
+                    var otherCorridors = floor.subCorridors
                                         .OrderBy(sc => sc.corridorNumber)
                                         .FirstOrDefault(sc => sc.corridorNumber != corridorNumber && sc.airConditioner.IsSwitchedOn)
                                         ?? operatingCorridor;
@@ -27,9 +27,9 @@ namespace EnergyManagement
             }
             else
             {
-                if (corridors.getCurrentPowerConsumptionUnits() + 5 <= corridors.getMaximumPowerConsumptionLimit())
+                if (floor.CurrentPowerConsumptionUnits + 5 <= floor.MaximumPowerConsumptionLimit)
                 {
-                    var otherCorridors = corridors
+                    var otherCorridors = floor.subCorridors
                                         .OrderBy(sc => sc.corridorNumber)
                                         .FirstOrDefault(sc => sc.corridorNumber != corridorNumber && !sc.airConditioner.IsSwitchedOn) 
                                         ?? operatingCorridor;

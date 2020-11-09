@@ -41,7 +41,7 @@ namespace EnergyManagement
         public void processSensorInput(string input)
         {
             var sensorInput = inputProcesser.parseInput(input);
-            controller.manageEquipments_LongMethod(floors[sensorInput.floorNumber-1].subCorridors, sensorInput.corridorNumber, sensorInput.hasMovement);
+            controller.manageEquipments_LongMethod(floors[sensorInput.floorNumber-1], sensorInput.corridorNumber, sensorInput.hasMovement);
         }
 
         public override string ToString()

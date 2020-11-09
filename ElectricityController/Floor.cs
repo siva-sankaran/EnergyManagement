@@ -8,12 +8,29 @@ namespace EnergyManagement
     public class Floor
     {
         private MainCorridor[] mainCorridors { get; set; }
-        public SubCorridors subCorridors { get; set; }
+        public SubCorridor[] subCorridors { get; set; }
         private IEnumerable<Corridor> GetAllCorridors()
         {
             return ((Corridor[])mainCorridors).Concat(subCorridors);
         }
         public int FloorNumber { get; private set; }
+
+        public int MaximumPowerConsumptionLimit
+        {
+            get
+            {
+                return subCorridors.Length * 10;
+            }
+        }
+
+        public int CurrentPowerConsumptionUnits
+        {
+            get 
+            { 
+                return subCorridors.Sum(s => s.PowerConsumption);
+            }
+        }
+        
         public Floor(int floorNumber, int noOfMainCorridors, int noOfSubCorridors)
         {
             this.FloorNumber = floorNumber;
@@ -23,12 +40,11 @@ namespace EnergyManagement
                 mainCorridors[i] = new MainCorridor(i + 1);
             }
 
-            SubCorridor[] scs = new SubCorridor[noOfSubCorridors];
+            this.subCorridors = new SubCorridor[noOfSubCorridors];
             for (int i = 0; i < noOfSubCorridors; i++)
             {
-                scs[i] = new SubCorridor(i + 1);
+                this.subCorridors[i] = new SubCorridor(i + 1);
             }
-            this.subCorridors = new SubCorridors(scs);
         }
 
         public override string ToString()
